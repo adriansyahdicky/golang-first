@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"first-application/database"
 	"first-application/models"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -25,11 +27,14 @@ func Register(c *fiber.Ctx) error {
 	password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
 
 	user := models.User{
+		Id:        uuid.New().String(),
 		FirstName: data["first_name"],
 		LastName:  data["last_name"],
 		Email:     data["email"],
 		Password:  password,
 	}
+
+	database.DB.Create(&user)
 
 	return c.JSON(user)
 }

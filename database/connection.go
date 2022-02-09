@@ -8,6 +8,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+
 func Connect() {
 	db, err := gorm.Open(postgres.Open("user=postgres password=root dbname=golang-test port=5432"), &gorm.Config{})
 
@@ -16,5 +18,6 @@ func Connect() {
 	}
 
 	fmt.Println(db)
+	DB = db
 	db.AutoMigrate(&models.User{})
 }

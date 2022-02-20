@@ -40,3 +40,52 @@ func CreateUser(c *fiber.Ctx) error {
 
 	return c.JSON(user)
 }
+
+func GetUser(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	user := models.User{
+		Id: id,
+	}
+
+	database.DB.Find(&user)
+
+	if user.FirstName == "" {
+		c.Status(404)
+		return c.JSON(fiber.Map{
+			"message": "Data User Not Found",
+		})
+	}
+
+	return c.JSON(user)
+}
+
+func UpdateUser(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	user := models.User{
+		Id: id,
+	}
+
+	if err := c.BodyParser(&user); err != nil {
+		return err
+	}
+
+	database.DB.Model(&user).Updates(user)
+
+	return c.JSON(user)
+}
+
+func Deleteuser(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	user := models.User{
+		Id: id,
+	}
+
+	database.DB.Delete(user)
+
+	return c.JSON(fiber.Map{
+		"message": "Success Delete",
+	})
+}

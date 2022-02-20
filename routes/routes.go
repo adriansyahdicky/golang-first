@@ -14,10 +14,17 @@ func Setup(app *fiber.App) {
 	app.Use(middlewares.IsAuthenticated)
 
 	app.Get("/api/user", controllers.User)
+	app.Post("/api/logout", controllers.Logout)
+
 	app.Get("/api/user/list", controllers.AllUsers)
 	app.Post("/api/user/create", controllers.CreateUser)
 	app.Put("/api/user/update/:id", controllers.UpdateUser)
 	app.Get("/api/user/by/:id", controllers.GetUser)
-	app.Post("/api/logout", controllers.Logout)
 	app.Delete("/api/user/delete/:id", controllers.Deleteuser)
+
+	app.Get("/api/role/list", controllers.AllRoles)
+	app.Post("/api/role/create", controllers.CreateRole)
+	app.Put("/api/role/update/:id", controllers.UpdateRole)
+	app.Get("/api/role/by/:id", controllers.GetRole)
+	app.Delete("/api/role/delete/:id", controllers.DeleteRole)
 }
